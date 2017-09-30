@@ -12,33 +12,36 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.salty.model.Game;
 import com.salty.repository.GameRepository;
-import com.sample.model.ToDoListItem;
 
 @RestController
 @RequestMapping("/api/v1/game")
 public class GameController {
-	@Autowired
 	private GameRepository gameRepository;
+	
+	@Autowired
+	public GameRepository getGameRepository() {
+		return this.gameRepository;
+	}
 	
 	@RequestMapping(value = "games", method = RequestMethod.GET)
 	public List<Game> getGames() {
-		return gameRepository.findAll();
+		return getGameRepository().findAll();
 	}
 	
 	@RequestMapping(value = "games", method = RequestMethod.POST)
 	public Game createGame(@RequestBody Game game) {
-		return gameRepository.saveAndFlush(game);		
+		return getGameRepository().saveAndFlush(game);		
 	}
 	
 	@RequestMapping(value = "games/{id}", method = RequestMethod.GET)
 	public Game getGame(Long id) {
-		return gameRepository.findOne(id);
+		return getGameRepository().findOne(id);
 	}
 	
 	@RequestMapping(value = "games/{id}", method = RequestMethod.PUT) 
 	public Game update(@PathVariable Long id, @RequestBody Game game) {
-		Game existingGame = gameRepository.findOne(id);
+		Game existingGame = getGameRepository().findOne(id);
 		BeanUtils.copyProperties(game, existingGame);
-		return gameRepository.saveAndFlush(existingGame);
+		return getGameRepository().saveAndFlush(existingGame);
 	}
 }
