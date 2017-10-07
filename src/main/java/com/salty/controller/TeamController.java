@@ -56,7 +56,7 @@ public class TeamController {
 			team.setMembers(members);
 		}
 		
-		return update(team.getId(), team);
+		return getTeamRepository().saveAndFlush(team);
 	}
 	
 }
